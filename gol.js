@@ -37,21 +37,9 @@ export const countLiveNeighbors = (board, pos) => {
 }
 
 export const shouldLive = (currentState, liveNeighbors) => {
-  if (currentState === DEAD) {
-    if (liveNeighbors !== 3) {
-      return false;
-    }
-  } else {
-    // underpopulation
-    if (liveNeighbors < 2) {
-      return false;
-    }
-    // overpopulation
-    if (liveNeighbors > 3) {
-      return false;
-    }
-  }
-  return true;
+  return currentState === DEAD
+    ? liveNeighbors === 3
+    : [3,2].includes(liveNeighbors);
 };
 
 export const nextGeneration = (board) => board.map(
