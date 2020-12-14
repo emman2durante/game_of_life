@@ -5,6 +5,7 @@ They show examples of writing and testing
   o) an instance method
 Pick the style most suitable to your exercise.
 '''
+import time, os
 
 class GameOfLife:
     DEAD_CELL = '.'
@@ -65,3 +66,33 @@ class GameOfLife:
 
             next_board.append(next_board_row)
         return next_board
+
+os.system('clear')
+
+def run(board):
+    gol = GameOfLife(board)
+    return gol.next_generation()
+
+current_gen = run([
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".","*",".",".",".",".","."],
+        [".",".",".",".","*","*","*",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."],
+        [".",".",".",".",".",".",".",".",".",".","."]])
+
+while (True):
+    for row in current_gen:
+        tmp = ''
+        for cell in row:
+            tmp = f'{tmp} {cell} '
+        print(tmp)
+
+    time.sleep(0.1)
+    os.system('clear')
+    current_gen = run(current_gen)
