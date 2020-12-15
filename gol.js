@@ -7,7 +7,7 @@
 const DEAD = '.';
 const ALIVE = '*';
 
-export const isBoardValid = (board) => {
+const isBoardValid = (board) => {
   const initWidth = board[0].length;
 
   for(let i = 1; i < initWidth; i++) {
@@ -17,14 +17,13 @@ export const isBoardValid = (board) => {
   return true;
 }
 
-export const countLiveNeighbors = (board, pos) => {
+const wrap = (n, max) => n < 0 ? max + n : n % max;
+
+const countLiveNeighbors = (board, pos) => {
   const {i, j} = pos;
   let count = 0;
 
-  const getNeighbor = (x, y) => {
-    const isOutOfBounds = x >= board.length || x < 0 || y >= board[0].length || y < 0;
-    return !isOutOfBounds ? board[x][y] : DEAD;
-  }
+  const getNeighbor = (x, y) => board[wrap(x, board.length)][wrap(y, board[0].length)];
 
   [-1, 0, 1].forEach((iOffset) => {
     [-1, 0, 1].forEach((jOffset) => {
@@ -36,14 +35,31 @@ export const countLiveNeighbors = (board, pos) => {
   return count;
 }
 
-export const shouldLive = (currentState, liveNeighbors) => {
+const shouldLive = (currentState, liveNeighbors) => {
   return currentState === DEAD
     ? liveNeighbors === 3
     : [3,2].includes(liveNeighbors);
 };
 
-export const nextGeneration = (board) => board.map(
+const nextGeneration = (board) => board.map(
   (row, i) => row.map(
     (cell, j) => shouldLive(cell, countLiveNeighbors(board, {i, j})) ? ALIVE : DEAD
   )
 );
+
+const run = (board) => nextGeneration(board);
+
+const currentGen = run([
+  ["*",".",".",".","."],
+  [".",".",".",".","."],
+  [".",".",".",".","."],
+  [".",".",".",".","."],
+  ["*","*",".",".","*"]]);
+
+currentGen.forEach((col) => {
+  let tmp = '';
+  col.forEach((cell) => {
+    tmp = `${tmp} ${cell} `
+  });
+  console.log(tmp);
+});
