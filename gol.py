@@ -21,20 +21,20 @@ class GameOfLife:
 
         i, j = pos[0], pos[1]
         for row in range(i-1, i+2):
-            # if row < 0 or row >= self.height:
-            #     continue
-            if row < 0:
-                row = self.height - 1
-            if row >= self.height:
-                row = 0
+            if row < 0 or row >= self.height:
+                continue
+            # if row < 0:
+            #     row = self.height - 1
+            # if row >= self.height:
+            #     row = 0
 
             for col in range(j-1, j+2):
-                # if col < 0 or col >= self.width:
-                #     continue
-                if col < 0:
-                    col = self.width - 1
-                if col >= self.width:
-                    col = 0
+                if col < 0 or col >= self.width:
+                    continue
+                # if col < 0:
+                #     col = self.width - 1
+                # if col >= self.width:
+                #     col = 0
 
                 if (row, col) == (i, j):
                     continue
@@ -77,22 +77,48 @@ class GameOfLife:
         return next_board
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def run(board):
     gol = GameOfLife(board)
     return gol.next_generation()
 
-current_gen = run(
-      [["*",".","*"],
-      [".","*","."],
-      [".",".","*"]]
-)
+def print_board(board):
+    for row in board:
+        tmp = ''
+        for cell in row:
+            tmp = f'{tmp} {cell} '
+        print(tmp)
+
+init_board = \
+      [[".",".",".",".","."],
+      ["*",".","*",".","."],
+      ["*","*",".","*","."],
+      [".",".","*",".","."],
+      [".",".",".",".","."]]
+
+current_gen = run(init_board)
+print_board(init_board)
+print('')
+print('==========================')
+print_board(current_gen)
 
 # while (True):
-for row in current_gen:
-    tmp = ''
-    for cell in row:
-        tmp = f'{tmp} {cell} '
-    print(tmp)
+
 
 #     # time.sleep(0.01)
 #     os.system('clear')
